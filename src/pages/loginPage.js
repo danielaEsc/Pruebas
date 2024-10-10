@@ -17,7 +17,7 @@ function Login() {
       <div className="App">
         <header className="App-header">
           <Auth
-                supabaseClient={supabase}
+                supabaseClient={ supabase }
                 appearance={{theme: 'default'}}
                 theme='dark'
                 providers={["spotify"]}
