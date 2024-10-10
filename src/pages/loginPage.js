@@ -5,7 +5,7 @@ function Login() {
     const navigate = useNavigate();
 
     supabase.auth.onAuthStateChange(async (event) => {
-        if ( event !== "SIGNED_OUT") {
+        if ( event !== "SIGNED_OUT") { 
             navigate("/sucsess");
         } else {
             navigate("/");
