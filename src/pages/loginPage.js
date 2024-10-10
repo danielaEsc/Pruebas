@@ -8,7 +8,7 @@ function Login() {
         if ( event !== "SIGNED_OUT") { 
             navigate("/sucsess");
         } else {
-            navigate("/")
+            navigate( "/" )
         }
 
     });
