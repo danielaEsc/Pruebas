@@ -1,0 +1,19 @@
+name: Notification discord
+on: [pull_request]
+
+jobs:
+  message:
+    name: Notifications
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord Webhook Action
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          content: "Hola @everyone"
+          status: ${{ job.status }}
+          title: "Pull Request"
+          description: "Se ha creado un nuevo pull request"
+          color: 0x0000ff
+          username: GitHub
