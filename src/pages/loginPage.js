@@ -10,8 +10,8 @@ function Login() {
         } else {
             navigate("/");
         }
-        
-    })
+
+    });
 
     return (
       <div className="App">
