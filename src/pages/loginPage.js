@@ -3,7 +3,7 @@ import { Auth } from '@supabase/auth-ui-react'
 
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login () {
     const navigate = useNavigate();
 
     supabase.auth.onAuthStateChange(async (event) => {
