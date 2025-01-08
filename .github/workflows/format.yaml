@@ -1,14 +1,14 @@
 name: Format Code with Prettier
 
 on:
-  pull_request: # Ejecuta el flujo en cada pull request
+  pull_request: 
 
 jobs:
   format:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write # Permisos necesarios para hacer commits
+      contents: write 
 
     steps:
       - name: Checkout repository
