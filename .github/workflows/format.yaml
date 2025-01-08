@@ -1,14 +1,14 @@
 name: Format Code with Prettier
 
 on:
-  pull_request:
+  pull_request: # Ejecuta el flujo en cada pull request
 
 jobs:
   format:
     runs-on: ubuntu-latest
 
     permissions:
-     contents: write
+      contents: write # Permisos necesarios para hacer commits
 
     steps:
       - name: Checkout repository
@@ -17,13 +17,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' 
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
 
       - name: Run Prettier to format code
         run: npm run format
+
+      - name: Check for changes
+        id: git_diff
+        run: |
+          git diff --exit-code || echo "::set-output name=changes::true"
 
       - name: Commit and push changes if any
         uses: stefanzweifel/git-auto-commit-action@v5
