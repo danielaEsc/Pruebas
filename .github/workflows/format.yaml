@@ -3,6 +3,9 @@ name: Format Code with Prettier
 on:
   pull_request:
 
+permissions:
+  contents: write
+
 jobs:
   format:
     runs-on: ubuntu-latest
