@@ -14,7 +14,7 @@ jobs:
 
       - name: Get PR author username
         id: pr_author
-        run: echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
+        run: echo "AUTHOR=$(echo '${{ github.event.pull_request.user.login }}')" >> $GITHUB_ENV
 
       - name: Set up Git
         run: |
