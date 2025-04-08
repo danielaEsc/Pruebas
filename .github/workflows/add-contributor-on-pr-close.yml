@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [closed]
 
+permissions:
+  contents: write
+
 jobs:
   update-contributors:
     if: github.event.pull_request.merged == true
@@ -14,12 +17,21 @@ jobs:
 
       - name: Get PR author username
         id: pr_author
-        run: echo "AUTHOR=$(echo '${{ github.event.pull_request.user.login }}')" >> $GITHUB_ENV
+        run: echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
 
       - name: Set up Git
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+
+      - name: Install all-contributors-cli
+        run: npm install -g all-contributors-cli
+
+      - name: Initialize config if missing
+        run: |
+          if [ ! -f ".all-contributorsrc" ]; then
+            npx all-contributors-cli init
+          fi
 
       - name: Add contributor and regenerate README
         run: |
