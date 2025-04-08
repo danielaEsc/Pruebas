@@ -34,3 +34,6 @@ jobs:
         run: |
           git add README.md .all-contributorsrc
           git diff --cached --quiet || (git commit -m "docs: update contributors [skip ci]" && git push)
+
+      - name: LS
+        run: ls -la README.md .all-contributorsrc
