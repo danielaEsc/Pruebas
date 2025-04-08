@@ -13,7 +13,6 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Get PR author username
-        id: pr_author
         run: echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
 
       - name: Set up Git
@@ -26,13 +25,10 @@ jobs:
 
       - name: Add contributor and regenerate README
         run: |
-          # Forzamos agregar aunque ya exista
-          all-contributors add $AUTHOR code --skip-check
-          all-contributors generate
+          npx all-contributors-cli add $AUTHOR code --skip-check
+          npx all-contributors-cli generate
 
       - name: Commit and push if changes exist
         run: |
           git add README.md .all-contributorsrc
           git diff --cached --quiet || (git commit -m "docs: update contributors [skip ci]" && git push)
-
-
