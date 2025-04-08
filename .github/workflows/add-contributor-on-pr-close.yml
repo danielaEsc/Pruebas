@@ -13,19 +13,17 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Get PR author username
-        run: echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
+        id: pr_author
+        run: echo "AUTHOR=$(echo '${{ github.event.pull_request.user.login }}')" >> $GITHUB_ENV
 
       - name: Set up Git
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
-      - name: Install all-contributors-cli
-        run: npm install -g all-contributors-cli
-
       - name: Add contributor and regenerate README
         run: |
-          npx all-contributors-cli add $AUTHOR code --skip-check
+          npx all-contributors-cli add $AUTHOR code
           npx all-contributors-cli generate
 
       - name: Commit and push if changes exist
