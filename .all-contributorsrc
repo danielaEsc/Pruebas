@@ -7,15 +7,7 @@
     "README.md"
   ],
   "imageSize": 100,
-  "contributors": [
-     {
-    "login": "danielaEsc",
-    "name": "Daniela Escobar",
-    "avatar_url": "https://avatars.githubusercontent.com/u/183104235?v=4",
-    "profile": "https://github.com/danielaEsc",
-    "contributions": ["code"]
-  }
-  ],
+  "contributors": [],
   "commit": true,
   "commitConvention": "angular",
   "contributorsPerLine": 7,

@@ -21,12 +21,16 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
+      - name: Install all-contributors-cli
+        run: npm install -g all-contributors-cli
+
       - name: Add contributor and regenerate README
         run: |
-          npx all-contributors-cli add $AUTHOR code
-          npx all-contributors-cli generate
+          all-contributors add $AUTHOR code
+          all-contributors generate
 
       - name: Commit and push if changes exist
         run: |
           git add README.md .all-contributorsrc
           git diff --cached --quiet || (git commit -m "docs: update contributors [skip ci]" && git push)
+
