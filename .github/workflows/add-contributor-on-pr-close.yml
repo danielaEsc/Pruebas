@@ -21,6 +21,23 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
+      - name: Ensure .all-contributorsrc exists
+        run: |
+          if [ ! -f .all-contributorsrc ]; then
+            echo "Creating default .all-contributorsrc"
+            cat <<EOF > .all-contributorsrc
+            {
+              "projectName": "Pruebas",
+              "projectOwner": "${{ github.repository_owner }}",
+              "repoType": "github",
+              "repoHost": "https://github.com",
+              "files": ["README.md"],
+              "imageSize": 100,
+              "commit": true,
+              "contributors": []
+            }
+          fi
+
       - name: Add contributor and regenerate README
         run: |
           npx all-contributors-cli add $AUTHOR code
@@ -30,3 +47,4 @@ jobs:
         run: |
           git add README.md .all-contributorsrc
           git diff --cached --quiet || (git commit -m "docs: update contributors [skip ci]" && git push)
+
