@@ -12,31 +12,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install all-contributors-cli
+        run: npm install -g all-contributors-cli
+
       - name: Get PR author username
         id: pr_author
-        run: echo "AUTHOR=$(echo '${{ github.event.pull_request.user.login }}')" >> $GITHUB_ENV
+        run: echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
 
       - name: Set up Git
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-
-      - name: Ensure .all-contributorsrc exists
-        run: |
-          if [ ! -f .all-contributorsrc ]; then
-            echo "Creating default .all-contributorsrc"
-            cat <<EOF > .all-contributorsrc
-            {
-              "projectName": "Pruebas",
-              "projectOwner": "${{ github.repository_owner }}",
-              "repoType": "github",
-              "repoHost": "https://github.com",
-              "files": ["README.md"],
-              "imageSize": 100,
-              "commit": true,
-              "contributors": []
-            }
-          fi
 
       - name: Add contributor and regenerate README
         run: |
@@ -44,7 +35,11 @@ jobs:
           npx all-contributors-cli generate
 
       - name: Commit and push if changes exist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add README.md .all-contributorsrc
-          git diff --cached --quiet || (git commit -m "docs: update contributors [skip ci]" && git push)
-
+          git diff --cached --quiet || (
+            git commit -m "docs: update contributors [skip ci]" && \
+            git push
+          )
