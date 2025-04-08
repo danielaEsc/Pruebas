@@ -1,0 +1,32 @@
+name: Update Contributors in README
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  update-contributors:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get PR author username
+        id: pr_author
+        run: echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Add contributor and regenerate README
+        run: |
+          npx all-contributors-cli add $AUTHOR code
+          npx all-contributors-cli generate
+
+      - name: Commit and push if changes exist
+        run: |
+          git add README.md .all-contributorsrc
+          git diff --cached --quiet || (git commit -m "docs: update contributors [skip ci]" && git push)
