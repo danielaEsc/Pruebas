@@ -10,44 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
-      - name: Install all-contributors-cli
-        run: npm install -g all-contributors-cli
+      - uses: actions/checkout@v3
 
       - name: Get PR author username
-        run: echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
+        id: pr_author
+        run: echo "AUTHOR=$(echo '${{ github.event.pull_request.user.login }}')" >> $GITHUB_ENV
 
-      - name: Set up Git user
+      - name: Set up Git
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
       - name: Add contributor and regenerate README
         run: |
-          echo "🧑 Adding contributor: $AUTHOR"
-          npx all-contributors-cli add "$AUTHOR" code || echo "User may already be added"
+          npx all-contributors-cli add $AUTHOR code
           npx all-contributors-cli generate
 
-      - name: Check generated files
-        run: |
-          echo "📄 Git status:"
-          git status
-          echo "📑 README preview:"
-          head -n 20 README.md
-
       - name: Commit and push if changes exist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add README.md .all-contributorsrc
-          git diff --cached --quiet || (
-            git commit -m "docs: update contributors [skip ci]" && \
-            git push
-          )
+          git diff --cached --quiet || (git commit -m "docs: update contributors [skip ci]" && git push)
