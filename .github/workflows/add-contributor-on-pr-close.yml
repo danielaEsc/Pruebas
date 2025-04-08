@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -21,18 +22,25 @@ jobs:
         run: npm install -g all-contributors-cli
 
       - name: Get PR author username
-        id: pr_author
         run: echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
 
-      - name: Set up Git
+      - name: Set up Git user
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
       - name: Add contributor and regenerate README
         run: |
-          npx all-contributors-cli add "${{ env.AUTHOR }}" code
+          echo "🧑 Adding contributor: $AUTHOR"
+          npx all-contributors-cli add "$AUTHOR" code || echo "User may already be added"
           npx all-contributors-cli generate
+
+      - name: Check generated files
+        run: |
+          echo "📄 Git status:"
+          git status
+          echo "📑 README preview:"
+          head -n 20 README.md
 
       - name: Commit and push if changes exist
         env:
