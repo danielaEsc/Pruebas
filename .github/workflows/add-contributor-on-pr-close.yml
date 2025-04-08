@@ -31,7 +31,7 @@ jobs:
 
       - name: Add contributor and regenerate README
         run: |
-          npx all-contributors-cli add $AUTHOR code
+          npx all-contributors-cli add "${{ env.AUTHOR }}" code
           npx all-contributors-cli generate
 
       - name: Commit and push if changes exist
