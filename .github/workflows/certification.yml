@@ -1,0 +1,34 @@
+name: Certification
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certification:
+    name: Certification
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [18]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Install dependencies with Yarn
+        run: yarn install
+
+      - name: fix formatting with Prettier
+        run: yarn run prettier:format
+
+      - name: Install dependencies TypeScript
+        run: yarn add --dev typescript
+
+      - name: Check TypeScript
+        run: yarn tsc --noEmit
