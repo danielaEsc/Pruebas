@@ -11,6 +11,5 @@
   "commit": true,
   "commitConvention": "angular",
   "contributorsPerLine": 7,
-  "linkToUsage": true,
-  "commitType": "docs"
+  "linkToUsage": true
 }
