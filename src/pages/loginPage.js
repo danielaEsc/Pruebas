@@ -1,5 +1,4 @@
 import { Auth } from '@supabase/auth-ui-react'
-} from 'react-router-dom'
 
 import { useNavigate } from 'react-router-dom';
 
