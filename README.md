@@ -2,7 +2,8 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-This project was bootstrapped with [ Create React App](https://github.com/facebook/create-react-app ).
+This project was bootstrapped with 
+[ Create React App](https://github.com/facebook/create-react-app ).
 
 ## Available Scripts
 
@@ -12,6 +13,7 @@ This project was bootstrapped with [ Create React App](https://github.com/facebo
 In the project directory, you can run:
 
 ### `npm start`
+
 
 Runs the app in the development mode.
 
