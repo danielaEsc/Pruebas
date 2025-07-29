@@ -18,11 +18,8 @@ jobs:
           echo "Branch to delete: $BRANCH_NAME"
 
           if [[ "$BRANCH_NAME" != "master" && "$BRANCH_NAME" != "main" ]]; then
-            git config --global user.name "${{ github.actor }}"
-            git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-            git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} repo
-            cd repo
-            git push origin --delete "$BRANCH_NAME"
+            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} --delete "$BRANCH_NAME"
           else
             echo "Skipping deletion of protected branch: $BRANCH_NAME"
           fi
+
