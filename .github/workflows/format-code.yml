@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.head_ref }}  # Esto asegura que se checkout la rama del PR
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -27,7 +27,6 @@ jobs:
         run: yarn prettier:format
 
       - name: Commit formatted code
-        if: github.repository_owner == github.actor  # Solo commits si es PR desde tu repo
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
