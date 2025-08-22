@@ -3,36 +3,34 @@ name: Format Code with Prettier
 on:
   pull_request:
     branches:
-      - master  # tu rama principal
+      - master
 
 jobs:
   format:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Clonar el repositorio
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}  # Esto asegura que se checkout la rama del PR
 
-      # 2️⃣ Configurar Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      # 3️⃣ Instalar dependencias con Yarn
       - name: Install dependencies
         run: yarn install
 
-      # 4️⃣ Ejecutar Prettier usando tu script
       - name: Run Prettier
         run: yarn prettier:format
 
-      # 5️⃣ Commit y push si hay cambios
       - name: Commit formatted code
+        if: github.repository_owner == github.actor  # Solo commits si es PR desde tu repo
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git diff --quiet || git commit -m "chore: format code with Prettier"
           git push
